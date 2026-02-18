@@ -15,7 +15,7 @@ export default function PricingPage() {
         <div className="space-y-8 text-left">
           <div className="space-y-4">
             <h2 className="text-orange-500 font-black uppercase tracking-[0.3em] text-sm">
-              Simple Price
+              Simple Pr
             </h2>
             <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-[0.9]">
               UNLIMITED <br /> 
