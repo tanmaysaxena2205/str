@@ -1,13 +1,13 @@
 import Link from 'next/link';
+import { Zap, Globe, BarChart3, ShieldCheck } from "lucide-react";
 
 export default function HomePage() {
   return (
     <main className="bg-[#050505] text-white min-h-screen">
-      {/* --- HERO SECTION: The Cinematic Experience --- */}
+      {/* --- HERO SECTION: Restored Cinematic Experience --- */}
       <section className="relative h-[90vh] flex items-center justify-center px-4 overflow-hidden">
-        {/* Background Video Overlay / Placeholder */}
+        {/* Background Video Overlay / Original Image Restored */}
         <div className="absolute inset-0 z-0 opacity-40">
-           {/* You would replace this with a real <video> tag later */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/60 to-[#050505]" />
           <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1467226632440-65f0b495746d?q=80&w=2000')] bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-700" />
         </div>
@@ -25,78 +25,75 @@ export default function HomePage() {
           </h1>
 
           <p className="text-gray-300 text-lg md:text-2xl max-w-3xl mx-auto font-medium">
-            Master German through high-definition video stories. 
-            Interactive subtitles. Real-world context. Zero fluff.
+            Master German through high-definition precision. 
+            Interactive training. Real-world context. Zero fluff.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
-            <button className="group relative px-12 py-5 bg-orange-500 text-black font-black rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95">
-              <span className="relative z-10">START WATCHING FREE</span>
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-            </button>
-            <button className="px-12 py-5 bg-white/5 backdrop-blur-md border border-white/10 text-white font-bold rounded-full hover:bg-white/10 transition-all">
-              BROWSE CATALOG
-            </button>
+            <Link href="/dashboard">
+              <button className="group relative px-12 py-5 bg-orange-500 text-black font-black rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95">
+                <span className="relative z-10 uppercase">Enter the Gauntlet</span>
+                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+              </button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* --- FEATURE SECTION: The Video-to-Quiz Loop --- */}
+      {/* --- PREMIUM BENEFITS SECTION: Replaces High-Velocity --- */}
       <section className="max-w-7xl mx-auto px-6 py-32">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div className="bg-[#0a0a0a] border border-white/5 rounded-[3rem] p-8 md:p-16 relative overflow-hidden">
+          {/* Subtle Glow */}
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-orange-500/10 blur-[120px] rounded-full" />
           
-          {/* Left: The Video Player Mockup */}
-          <div className="relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-yellow-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-            <div className="relative bg-neutral-900 rounded-2xl aspect-video border border-white/10 flex items-center justify-center overflow-hidden">
-               <div className="text-orange-500 text-6xl">▶</div>
-               {/* Decorative Subtitles Overlay */}
-               <div className="absolute bottom-6 left-0 right-0 px-10 text-center">
-                  <div className="bg-black/80 backdrop-blur-sm p-2 rounded inline-block text-lg">
-                    "Ich möchte einen <span className="text-orange-500 border-b-2 border-orange-500 cursor-pointer">Kaffee</span> bestellen."
-                  </div>
-               </div>
-            </div>
-          </div>
-
-          {/* Right: The Explanation */}
-          <div className="space-y-8">
-            <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-              Interactive Subtitles <br />
-              <span className="text-gray-500">Meet Instant Quizzes.</span>
-            </h2>
-            
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
-              <div className="flex gap-4">
-                <div className="mt-1 h-6 w-6 rounded-full bg-orange-500/20 flex items-center justify-center shrink-0">
-                  <div className="h-2 w-2 rounded-full bg-orange-500"></div>
-                </div>
-                <p className="text-gray-400"><strong className="text-white">Smart Pause:</strong> Click any word in the video to pause and save it to your deck.</p>
+              <h2 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter leading-none">
+                THE <span className="text-orange-500">PREMIUM</span><br />ADVANTAGE.
+              </h2>
+              <p className="text-gray-400 text-lg font-medium max-w-md italic">
+                No distractions. No limits. Just pure linguistic dominance.
+              </p>
+              <button className="bg-white text-black px-10 py-4 rounded-2xl font-black uppercase italic hover:bg-orange-500 hover:text-white transition-all">
+                Upgrade to Pro
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="bg-white/[0.03] p-8 rounded-[2rem] border border-white/5 hover:border-orange-500/50 transition-colors group">
+                <Globe className="text-orange-500 mb-4 group-hover:scale-110 transition-transform" size={32} />
+                <h4 className="text-xl font-black uppercase italic italic mb-2">10,000+ Words</h4>
+                <p className="text-sm text-gray-500 font-bold uppercase tracking-tighter">Complete access to the entire German lexicon.</p>
               </div>
-              <div className="flex gap-4">
-                <div className="mt-1 h-6 w-6 rounded-full bg-orange-500/20 flex items-center justify-center shrink-0">
-                  <div className="h-2 w-2 rounded-full bg-orange-500"></div>
-                </div>
-                <p className="text-gray-400"><strong className="text-white">Scene Quizzes:</strong> Every 5 minutes, we test your comprehension with a fast-paced challenge.</p>
+
+              <div className="bg-white/[0.03] p-8 rounded-[2rem] border border-white/5 hover:border-orange-500/50 transition-colors group">
+                <Zap className="text-orange-500 mb-4 group-hover:scale-110 transition-transform" size={32} />
+                <h4 className="text-xl font-black uppercase italic mb-2">Flawless Flow</h4>
+                <p className="text-sm text-gray-500 font-bold uppercase tracking-tighter">Zero ads. Instant loading. High-speed retention.</p>
+              </div>
+
+              <div className="bg-white/[0.03] p-8 rounded-[2rem] border border-white/5 hover:border-orange-500/50 transition-colors group">
+                <BarChart3 className="text-orange-500 mb-4 group-hover:scale-110 transition-transform" size={32} />
+                <h4 className="text-xl font-black uppercase italic mb-2">Word Tracker</h4>
+                <p className="text-sm text-gray-500 font-bold uppercase tracking-tighter">Real-time tracking of every word you've mastered.</p>
+              </div>
+
+              <div className="bg-white/[0.03] p-8 rounded-[2rem] border border-white/5 hover:border-orange-500/50 transition-colors group">
+                <ShieldCheck className="text-orange-500 mb-4 group-hover:scale-110 transition-transform" size={32} />
+                <h4 className="text-xl font-black uppercase italic mb-2">Elite Rank</h4>
+                <p className="text-sm text-gray-500 font-bold uppercase tracking-tighter">Priority support and premium member badges.</p>
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* --- CATEGORY SECTION --- */}
-      <section className="pb-32 px-6">
-        <h3 className="text-2xl font-bold mb-12 text-center text-gray-500 tracking-widest uppercase">Select Your Genre</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto">
-          {['Berlin Crime', 'Daily Life', 'History', 'Business'].map((genre) => (
-            <div key={genre} className="aspect-[3/4] bg-neutral-900 rounded-xl border border-white/5 hover:border-orange-500/50 transition-all cursor-pointer flex flex-col justify-end p-6 group">
-              <span className="text-orange-500 font-bold mb-2 opacity-0 group-hover:opacity-100 transition-opacity">Explore &rarr;</span>
-              <h4 className="text-xl font-black">{genre}</h4>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* --- MINIMALIST FOOTER: Perfected --- */}
+      <footer className="py-20 border-t border-white/5 text-center">
+         <Link href="/dashboard" className="text-4xl font-black italic uppercase text-white/20 hover:text-orange-500 transition-colors tracking-tighter">
+            Begin the Journey &rarr;
+         </Link>
+      </footer>
     </main>
   );
 }

@@ -1,96 +1,122 @@
-'use client';
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-import { useUser, SignOutButton } from "@clerk/nextjs";
-import Link from 'next/link';
+import React from "react";
+import { auth } from "@clerk/nextjs/server";
+import { getUserById } from "@/lib/actions/user.actions";
+import { Star } from "lucide-react"; 
+import { SCROLL_DATA } from "@/data/scroll-data";
+import LevelButton from "@/components/LevelButton"; // Import the client button
 
-export default function Dashboard() {
-  const { isLoaded, isSignedIn, user } = useUser();
+export default async function DashboardPage() {
+  const { userId } = await auth();
+  const user = await getUserById(userId);
 
-  if (!isLoaded || !isSignedIn) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
+  const progress = user?.currentProgress || "1-1-1";
+  const [activeSec, activeUnit, activeLevel] = progress.split("-").map(Number);
+
+  const isFreeUser = user?.role === "free";
+  const hasCompletedLevelToday = user?.lastLevelCompletedAt && 
+    new Date(user.lastLevelCompletedAt).toDateString() === new Date().toDateString();
+  
+  const isDailyLimitReached = isFreeUser && hasCompletedLevelToday;
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans">
-      {/* SIDEBAR NAVIGATION */}
-      <aside className="fixed left-0 top-0 h-full w-64 bg-neutral-900 border-r border-white/5 hidden lg:flex flex-col p-6">
-        <h1 className="text-2xl font-black italic mb-10">
-          LANG<span className="text-orange-500">STER</span>
-        </h1>
-        
-        <nav className="space-y-2 flex-1">
-          <Link href="/dashboard" className="flex items-center gap-3 bg-orange-500 text-black px-4 py-3 rounded-xl font-bold transition-all">
-            Dashboard
-          </Link>
-          <Link href="/stories" className="flex items-center gap-3 hover:bg-white/5 px-4 py-3 rounded-xl font-medium transition-all text-gray-400 hover:text-white">
-            Video Stories
-          </Link>
-          <Link href="/vocabulary" className="flex items-center gap-3 hover:bg-white/5 px-4 py-3 rounded-xl font-medium transition-all text-gray-400 hover:text-white">
-            Word Bank
-          </Link>
-        </nav>
-
-        <div className="mt-auto pt-6 border-t border-white/5">
-          <SignOutButton>
-            <button className="w-full text-left px-4 py-3 text-gray-500 hover:text-orange-500 transition-colors font-bold">
-              Sign Out
-            </button>
-          </SignOutButton>
-        </div>
-      </aside>
-
-      {/* MAIN CONTENT AREA */}
-      <main className="lg:ml-64 p-6 md:p-10">
-        {/* HEADER */}
-        <header className="flex justify-between items-center mb-10">
-          <div>
-            <h2 className="text-3xl font-black">Willkommen, {user.firstName || 'Learner'}! 👋</h2>
-            <p className="text-gray-500 font-medium">Ready to master some German today?</p>
-          </div>
-          <img src={user.imageUrl} className="w-12 h-12 rounded-full border-2 border-orange-500" alt="profile" />
-        </header>
-
-        {/* STATS GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          <div className="bg-neutral-900 border border-white/5 p-6 rounded-[2rem]">
-            <p className="text-gray-500 text-xs font-black uppercase tracking-widest mb-2">Current Streak</p>
-            <h3 className="text-4xl font-black italic">12 <span className="text-orange-500 text-xl">Days</span></h3>
-          </div>
-          <div className="bg-neutral-900 border border-white/5 p-6 rounded-[2rem]">
-            <p className="text-gray-500 text-xs font-black uppercase tracking-widest mb-2">Words Mastered</p>
-            <h3 className="text-4xl font-black italic">428</h3>
-          </div>
-          <div className="bg-neutral-900 border border-white/5 p-6 rounded-[2rem]">
-            <p className="text-gray-500 text-xs font-black uppercase tracking-widest mb-2">Fluency Level</p>
-            <h3 className="text-4xl font-black italic text-orange-500">A2</h3>
-          </div>
-        </div>
-
-        {/* "CONTINUE WATCHING" SECTION */}
-        <section>
-          <div className="flex justify-between items-end mb-6">
-            <h3 className="text-xl font-bold italic uppercase tracking-tighter">Continue Watching</h3>
-            <Link href="/stories" className="text-orange-500 text-sm font-bold hover:underline">View All</Link>
-          </div>
-          
-          <div className="relative group overflow-hidden rounded-[2.5rem] bg-neutral-900 border border-white/10 aspect-video md:aspect-[21/9] flex items-center justify-center">
-            {/* Placeholder for Video Thumbnail */}
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1467269204594-9661b134dd2b?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-            
-            <div className="relative z-10 text-center">
-              <h4 className="text-2xl md:text-4xl font-black mb-4">Ein Tag in Berlin</h4>
-              <Link href="/stories/berlin-1" className="bg-white text-black px-8 py-3 rounded-full font-black uppercase tracking-widest hover:bg-orange-500 transition-colors inline-block">
-                Resume Lesson
-              </Link>
+    <div className="min-h-screen bg-[#0a0a0a] text-white font-sans pb-20">
+      
+      {/* HEADER / NAV */}
+      <div className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/5 p-6">
+        <div className="max-w-5xl mx-auto flex justify-between items-center">
+          <h1 className="text-3xl font-black italic tracking-tighter text-[#ff6600]">LANGSTER</h1>
+          <div className="flex gap-4 items-center">
+            {isFreeUser && (
+              <span className="bg-orange-500/10 text-[#ff6600] px-3 py-1 rounded-md text-[10px] font-black uppercase border border-orange-500/20">
+                Free Tier
+              </span>
+            )}
+            <div className="bg-white/5 px-4 py-2 rounded-full border border-white/10 flex items-center gap-2">
+              <Star size={18} className="text-yellow-400 fill-yellow-400" />
+              <span className="font-black">1,240 XP</span>
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </div>
+
+      <div className="max-w-5xl mx-auto px-6 mt-12">
+        {SCROLL_DATA.map((section) => {
+          const sectionIdNum = Number(section.sectionId);
+
+          return (
+            <section key={section.sectionId} className="mb-24">
+              <div className="mb-10 text-left">
+                <h2 className="text-6xl font-black uppercase italic tracking-tighter leading-none mb-2">
+                  {section.sectionTitle}
+                </h2>
+                <div className="h-2 w-32 bg-[#ff6600] rounded-full shadow-[0_0_15px_rgba(255,102,0,0.5)]" />
+              </div>
+
+              <div className="flex flex-col gap-12">
+                {section.units.map((unit) => {
+                  const unitIdNum = Number(unit.unitId);
+
+                  return (
+                    <div key={unit.unitId} className="bg-white/[0.03] border-2 border-white/5 rounded-[3rem] p-10">
+                      <div className="mb-10">
+                        <p className="text-[#ff6600] font-black uppercase tracking-[0.3em] text-xs mb-2">Unit {unit.unitId}</p>
+                        <h3 className="text-4xl font-black uppercase italic leading-none">{unit.unitTitle}</h3>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                        {unit.levels.map((level, idx) => {
+                          const levelIdNum = Number(level.levelId);
+                          
+                          // HIERARCHICAL UNLOCK LOGIC
+                          // 1. Is the current section completely finished?
+                          const isPastSection = sectionIdNum < activeSec;
+                          const isCurrentSection = sectionIdNum === activeSec;
+
+                          // 2. Unlock if section is past, OR (if section matches) unit is past, OR (if unit matches) level is current/past
+                          const isUnlockedByProgress = 
+                            isPastSection || 
+                            (isCurrentSection && (unitIdNum < activeUnit || (unitIdNum === activeUnit && levelIdNum <= activeLevel)));
+
+                          const isCompleted = 
+                            isPastSection || 
+                            (isCurrentSection && (unitIdNum < activeUnit || (unitIdNum === activeUnit && levelIdNum < activeLevel)));
+
+                          const isActive = isCurrentSection && unitIdNum === activeUnit && levelIdNum === activeLevel;
+                          const showTimeLock = isActive && isDailyLimitReached;
+
+                          return (
+                            <div key={level.levelId} className="flex flex-col items-center">
+                              <LevelButton 
+                                  level={level}
+                                  idx={idx}
+                                  isUnlockedByProgress={isUnlockedByProgress}
+                                  showTimeLock={showTimeLock}
+                                  isActive={isActive}
+                                  isCompleted={isCompleted}
+                                  unitId={unit.unitId}
+                                  levelIdNum={levelIdNum}
+                              />
+
+                              <p className={`mt-3 text-[9px] font-black uppercase text-center tracking-tighter leading-tight
+                                ${!isUnlockedByProgress || showTimeLock ? "text-white/10" : "text-white/60"}
+                              `}>
+                                {level.title}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          );
+        })}
+      </div>
     </div>
   );
 }

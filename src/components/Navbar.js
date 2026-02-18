@@ -1,14 +1,16 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+// 1. Import Clerk components
+import { UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
-    { name: 'Video Stories', href: '/stories' },
-    { name: 'Courses', href: '/courses' },
-    { name: 'Method', href: '/method' },
+    { name: 'My Words', href: '/my-words' },
+    { name: 'Pricing', href: '/pricing' },
+    { name: 'Help', href: '/help' },
   ];
 
   return (
@@ -41,16 +43,34 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* DESKTOP ACTIONS */}
+          {/* DESKTOP ACTIONS - MODIFIED FOR AUTH */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link href="/login" className="text-sm font-bold text-gray-300 hover:text-white transition-all">
-              Sign In
-            </Link>
-            <Link href="/sign-up">
-              <button className="bg-orange-500 hover:bg-orange-600 text-black text-sm font-black py-3 px-8 rounded-full transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(249,115,22,0.3)]">
-                TRY FREE
-              </button>
-            </Link>
+            {/* ONLY SHOW IF LOGGED OUT */}
+            <SignedOut>
+              <Link href="/sign-in" className="text-sm font-bold text-gray-300 hover:text-white transition-all">
+                Sign In
+              </Link>
+              <Link href="/sign-up">
+                <button className="bg-orange-500 hover:bg-orange-600 text-black text-sm font-black py-3 px-8 rounded-full transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(249,115,22,0.3)]">
+                  TRY FREE
+                </button>
+              </Link>
+            </SignedOut>
+
+            {/* ONLY SHOW IF LOGGED IN */}
+            <SignedIn>
+              <Link href="/dashboard" className="text-sm font-bold text-gray-300 hover:text-orange-500 transition-all mr-2">
+                Dashboard
+              </Link>
+              <UserButton 
+                afterSignOutUrl="/" 
+                appearance={{
+                  elements: {
+                    avatarBox: "w-10 h-10 border-2 border-orange-500"
+                  }
+                }}
+              />
+            </SignedIn>
           </div>
 
           {/* MOBILE MENU BUTTON */}
@@ -86,14 +106,27 @@ export default function Navbar() {
               </Link>
             ))}
             <div className="pt-4 border-t border-white/5 space-y-4 px-4">
-              <Link href="/login" onClick={() => setIsMenuOpen(false)} className="block text-gray-400 font-bold">
-                Sign In
-              </Link>
-              <Link href="/signup" onClick={() => setIsMenuOpen(false)}>
-                <button className="w-full bg-orange-500 text-black font-black py-4 rounded-xl mt-2">
-                  TRY FREE
-                </button>
-              </Link>
+              {/* MOBILE AUTH LOGIC */}
+              <SignedOut>
+                <Link href="/sign-in" onClick={() => setIsMenuOpen(false)} className="block text-gray-400 font-bold">
+                  Sign In
+                </Link>
+                <Link href="/sign-up" onClick={() => setIsMenuOpen(false)}>
+                  <button className="w-full bg-orange-500 text-black font-black py-4 rounded-xl mt-2">
+                    TRY FREE
+                  </button>
+                </Link>
+              </SignedOut>
+
+              <SignedIn>
+                <Link href="/dashboard" onClick={() => setIsMenuOpen(false)} className="block text-gray-300 font-bold mb-4">
+                  Dashboard
+                </Link>
+                <div className="flex items-center gap-3 py-2">
+                   <UserButton afterSignOutUrl="/" />
+                   <span className="text-gray-400 text-sm">Account Settings</span>
+                </div>
+              </SignedIn>
             </div>
           </div>
         </div>
