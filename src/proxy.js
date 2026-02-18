@@ -1,34 +1,37 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
 
-// 1. Define which routes are public
+// Define pages that are strictly public
 const isPublicRoute = createRouteMatcher([
-  '/sign-in(.*)', 
-  '/sign-up(.*)', 
-  '/api/webhooks/clerk(.*)',
-  '/', // Homepage is public
+  '/',
   '/pricing',
-  '/my-words'
+  '/my-words',
+  '/sign-in(.*)',
+  '/sign-up(.*)',
+  '/api/webhooks/clerk(.*)'
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
+  // Only check auth if the route isn't in the ignore list below
   const { userId } = await auth();
 
-  // OPTIMIZATION: If user is logged in and hits the landing page, 
-  // send them straight to the dashboard so they don't see the "Sign Up" pitch.
-  if (userId && req.nextUrl.pathname === '/') {
-    return NextResponse.redirect(new URL('/dashboard', req.url));
-  }
-
-  // 2. If the user is NOT logged in and trying to access a PRIVATE route
   if (!userId && !isPublicRoute(req)) {
-    return NextResponse.redirect(new URL('/sign-up', req.url));
+    // Redirect to sign-up if trying to access private content
+    const signUpUrl = new URL('/sign-up', req.url);
+    return Response.redirect(signUpUrl);
   }
 });
 
 export const config = {
   matcher: [
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    /*
+     * This regex is your "Shield." 
+     * It tells Vercel to IGNORE these paths entirely:
+     * - Homepage ($)
+     * - Pricing
+     * - My Words
+     * - Static assets (_next, images, etc.)
+     */
+    '/((?!_next/static|_next/image|favicon.ico|pricing|my-words|$).*)',
     '/(api|trpc)(.*)',
   ],
 };
