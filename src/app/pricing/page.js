@@ -77,7 +77,7 @@ export default function PricingPage() {
                   createOrder={(data, actions) => {
                     return actions.order.create({
                       purchase_units: [{
-                        amount: { value: "2.00" },
+                        amount: { value: "0.01" },
                         custom_id: userId || "guest", // <--- userId from useAuth()
                         description: "Langster Lifetime Access"
                       }],
