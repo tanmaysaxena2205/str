@@ -1,22 +1,37 @@
 'use client';
 
-import { useSignUp } from "@clerk/nextjs";
+import { useSignUp, useSignIn } from "@clerk/nextjs";
 import Link from 'next/link';
 
 export default function SignUpPage() {
-  const { isLoaded, signUp } = useSignUp();
+  const { isLoaded: signUpLoaded, signUp } = useSignUp();
+  const { isLoaded: signInLoaded, signIn } = useSignIn();
   
-    const signInWith = (strategy) => {
-        if (!isLoaded) return;
-            signUp.authenticateWithRedirect({
-                  strategy: strategy,
-                        redirectUrl: "/sign-up/sso-callback",
-                              redirectUrlComplete: "/dashboard",
-                                  });
-                                    };
+  const signInWith = async (strategy) => {
+    if (!signUpLoaded || !signInLoaded) return;
+
+    try {
+      // 1. Try the Popup flow first (Feels "Instant")
+      await signUp.authenticateWithPopup({
+        strategy: strategy,
+        redirectUrl: "/sign-up/sso-callback",
+        redirectUrlComplete: "/dashboard",
+      });
+    } catch (err) {
+      // 2. Fallback: If popup is blocked by browser, use Redirect
+      console.error("Popup blocked or failed, falling back to redirect", err);
+      
+      signUp.authenticateWithRedirect({
+        strategy: strategy,
+        redirectUrl: "/sign-up/sso-callback",
+        redirectUrlComplete: "/dashboard",
+      });
+    }
+  };
 
   return (
-    <main className="min-h-screen bg-black flex items-center justify-center p-6">
+    <main className="min-h-screen bg-black flex items-center justify-center p-6 relative overflow-hidden">
+      {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-500/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="w-full max-w-[440px] z-10">
@@ -41,7 +56,7 @@ export default function SignUpPage() {
               <span className="text-white font-bold text-sm">Continue with Google</span>
             </button>
 
-            {/* APPLE BUTTON - Sized to match Google perfectly */}
+            {/* APPLE BUTTON */}
             <button 
               onClick={() => signInWith("oauth_apple")}
               className="w-full flex items-center justify-center gap-4 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all active:scale-[0.98] group"
@@ -54,8 +69,12 @@ export default function SignUpPage() {
           </div>
 
           <div className="relative mb-8 text-center">
-            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/5"></div></div>
-            <span className="relative bg-[#171717] px-4 text-[10px] font-black text-gray-500 uppercase tracking-widest">Or traditional email</span>
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-white/5"></div>
+            </div>
+            <span className="relative bg-[#171717] px-4 text-[10px] font-black text-gray-500 uppercase tracking-widest">
+              Or traditional email
+            </span>
           </div>
 
           <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
