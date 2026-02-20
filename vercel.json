@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.lang-peach.vercel.app"
+        }
+      ],
+      "destination": "https://lang-peach.vercel.app/:path*",
+      "permanent": true
+    }
+  ]
+}

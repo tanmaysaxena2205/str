@@ -24,8 +24,9 @@ export default async function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white font-sans pb-20 overflow-x-hidden">
-      {/* HEADER */}
-      <div className="sticky top-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/5 p-4 md:p-6">
+      
+      {/* HEADER - FIXED Z-INDEX AND OPACITY */}
+      <header className="sticky top-0 z-[100] w-full bg-[#0a0a0a]/95 backdrop-blur-md border-b border-white/5 p-4 md:p-6">
         <div className="max-w-5xl mx-auto flex justify-between items-center">
           <h1 className="text-xl md:text-3xl font-black italic tracking-tighter text-[#ff6600]">
             LANGSTER
@@ -42,9 +43,10 @@ export default async function DashboardPage() {
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
-      <div className="max-w-5xl mx-auto px-4 md:px-6 mt-8 md:mt-16">
+      {/* CONTENT AREA - Lower Z-Index */}
+      <main className="relative z-10 max-w-5xl mx-auto px-4 md:px-6 mt-8 md:mt-16">
         {SCROLL_DATA.map((section) => {
           const sectionIdNum = Number(section.sectionId);
 
@@ -96,7 +98,6 @@ export default async function DashboardPage() {
                                 levelIdNum={levelIdNum}
                               />
                               
-                              {/* The Label - Smaller and Tight on Mobile */}
                               <p className={`mt-3 text-[9px] md:text-[11px] font-black uppercase text-center tracking-tighter leading-tight max-w-[90px] md:max-w-[110px]
                                 ${!isUnlockedByProgress || showTimeLock ? "text-white/10" : "text-white/60"}
                               `}>
@@ -113,7 +114,7 @@ export default async function DashboardPage() {
             </section>
           );
         })}
-      </div>
+      </main>
     </div>
   );
 }
