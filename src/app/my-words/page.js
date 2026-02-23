@@ -3,21 +3,27 @@ import { auth } from "@clerk/nextjs/server";
 import { connectToDatabase } from "@/lib/mongodb/mongoose";
 import User from "@/lib/models/user.model";
 import { getUnlockedWords } from "@/lib/utils/getUnlockedWords";
+import { redirect } from "next/navigation";
+
+
 
 export default async function MyWordsPage() {
-  // FIX 1: You must await auth() to get the userId
+  // 1. Authenticate (Wait time, zero active CPU risk)
   const { userId } = await auth(); 
-  
-  console.log("CLERK ID FROM AUTH:", userId);
+  if (!userId) redirect("/sign-in");
   
   await connectToDatabase();
   
-  // Find user by clerkId
-  const user = await User.findOne({ clerkId: userId });
-  console.log("DB DATA:", user?.currentProgress);
+  // 2. Fetch only what is needed. 
+  // .lean() ensures we get a plain JS object which is faster to read.
+  const user = await User.findOne({ clerkId: userId })
+    .select("currentProgress") 
+    .lean();
   
-  // FIX 2: Default to 1-0 and use "-" in the replace for UI consistency
+  // 3. Extract the string (Identical value to your original code)
   const progressString = user?.currentProgress || "1-0";
+  
+  // 4. Transform data (Active CPU work)
   const words = getUnlockedWords(progressString);
 
   return (
@@ -28,7 +34,7 @@ export default async function MyWordsPage() {
             MY <span className="text-orange-500">WORDS</span>
           </h1>
           <p className="text-white/30 font-bold mt-2 uppercase tracking-widest text-xs">
-            {/* FIX 3: Changed ':' to '-' to match your DB format */}
+            {/* The string replacement works exactly as before */}
             Progress: Unit {progressString.replace('-', ' • Level ')}
           </p>
         </header>
@@ -37,7 +43,7 @@ export default async function MyWordsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {words.map((item, index) => (
               <div 
-                key={index} 
+                key={`${item.displayId}-${index}`} 
                 className="bg-[#0a0a0a] border border-white/5 p-8 rounded-[2rem] hover:border-orange-500/50 transition-all group relative overflow-hidden"
               >
                 <div className="absolute -right-2 -top-2 text-6xl font-black text-white/[0.02] group-hover:text-orange-500/10 transition-colors">
