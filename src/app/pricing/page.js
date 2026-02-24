@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link';
-import { Check, Infinity, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Check, Infinity, ShieldCheck, ArrowRight, Users } from 'lucide-react';
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { useAuth } from "@clerk/nextjs";
 import { upgradeUserRole } from "@/lib/actions/user.actions";
@@ -8,8 +8,9 @@ import { upgradeUserRole } from "@/lib/actions/user.actions";
 export default function PricingPage() {
   const { userId } = useAuth();
 
-  // RAZORPAY HANDLER
+  // UPDATED RAZORPAY HANDLER WITH SERVER-SIDE ORDER & VERIFICATION
   const handleRazorpay = async () => {
+    // 1. Load the Razorpay Checkout Script
     const scriptLoaded = await new Promise((resolve) => {
       const script = document.createElement("script");
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
@@ -23,30 +24,90 @@ export default function PricingPage() {
       return;
     }
 
-    const options = {
-      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, 
-      amount: 17500, // ₹175 approx $2
-      currency: "INR",
-      name: "Langster",
-      description: "Lifetime Premium Access",
-      handler: async function (response) {
-        try {
-          if (userId) await upgradeUserRole(userId);
-          window.location.href = "/dashboard?payment=success";
-        } catch (error) {
-          console.error("Upgrade failed:", error);
-        }
-      },
-      prefill: { name: "Learner" },
-      theme: { color: "#3395FF" },
-    };
+    try {
+      // 2. Create Order on your Server (api/razorpay/order/route.js)
+      // This is more secure than creating it on the client
+      const response = await fetch("/api/razorpay/order", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ 
+    amount: 175, 
+    userId: userId 
+  }),
+});
+      const orderData = await response.json();
 
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
+      if (!orderData.id) throw new Error("No Order ID returned from server");
+
+      // 3. Configure Razorpay Modal Options
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, 
+        amount: orderData.amount,
+        currency: "INR",
+        name: "Langster",
+        description: "Lifetime Premium Access",
+        order_id: orderData.id, // Linking to the server-side order
+        handler: async function (response) {
+          // 4. Verify payment on your server (api/razorpay/verify/route.js)
+          // This prevents signature spoofing
+          const verifyRes = await fetch("/api/razorpay/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            }),
+          });
+
+          const verifyData = await verifyRes.json();
+
+          if (verifyData.success) {
+            // 5. Upgrade User and Redirect
+            if (userId) await upgradeUserRole(userId);
+            window.location.href = "/dashboard?payment=success";
+          } else {
+            alert("Payment verification failed. Please contact support.");
+          }
+        },
+        prefill: { 
+          name: "Learner",
+          email: "" // Optional: Add user email from Clerk here
+        },
+        theme: { color: "#3395FF" },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+
+    } catch (error) {
+      console.error("Razorpay Error:", error);
+      alert("Something went wrong with the payment initiation.");
+    }
   };
 
   return (
-    <main className="bg-[#050505] text-white min-h-[100dvh] flex items-center justify-center px-6 lg:px-20">
+    <main className="bg-[#050505] text-white min-h-[100dvh] flex items-center justify-center px-6 lg:px-20 relative">
+      
+      {/* --- NAVBAR-STYLE SOCIAL PROOF BOX --- */}
+      <div className="absolute top-8 right-10 hidden xl:block">
+        <div className="flex items-center gap-3 bg-white/[0.03] backdrop-blur-2xl border border-white/10 p-1.5 pr-4 rounded-xl shadow-2xl transition-all hover:border-orange-500/40 group cursor-default">
+          <div className="relative">
+            <div className="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center text-black">
+              <Users size={16} strokeWidth={3} />
+            </div>
+            <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-orange-600 border-2 border-[#050505]"></span>
+            </span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-white font-black text-[9px] tracking-tighter uppercase leading-none">10,000+ Active</span>
+            <span className="text-orange-500/70 text-[8px] font-bold uppercase tracking-[0.1em] mt-1 group-hover:text-orange-500 transition-colors">Paid Members</span>
+          </div>
+        </div>
+      </div>
+
       <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center py-12">
         
         {/* --- LEFT SIDE: THE PITCH --- */}
@@ -105,12 +166,9 @@ export default function PricingPage() {
               <PriceFeature text="Future Content Additions" />
             </div>
 
-            {/* PAYMENT GATEWAYS */}
             <div className="flex flex-col gap-2">
-              
-              {/* 1. PAYPAL (FIRST) */}
               <div className="w-full">
-                <PayPalScriptProvider options={{ "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID }}>
+                <PayPalScriptProvider options={{ "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "" }}>
                   <PayPalButtons
                     style={{ layout: "vertical", shape: "rect", color: "gold", label: "pay" }}
                     createOrder={(data, actions) => {
@@ -135,19 +193,15 @@ export default function PricingPage() {
                 </PayPalScriptProvider>
               </div>
 
-              {/* SEPARATOR */}
               <div className="relative py-2">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t border-white/5"></span>
                 </div>
                 <div className="relative flex justify-center">
-                  <span className="bg-[#0a0a0a] px-4 text-[10px] font-black uppercase tracking-widest text-white/20 italic">
-                    OR
-                  </span>
+                  <span className="bg-[#0a0a0a] px-4 text-[10px] font-black uppercase tracking-widest text-white/20 italic">OR</span>
                 </div>
               </div>
 
-              {/* 2. RAZORPAY (SECOND) */}
               <button 
                 onClick={handleRazorpay}
                 className="w-full bg-[#3395FF] hover:bg-[#2a7ed9] h-[50px] rounded-sm flex items-center justify-center transition-all shadow-md active:scale-[0.98] px-4 mb-4"
@@ -163,23 +217,17 @@ export default function PricingPage() {
                 </div>
               </button>
 
-              {/* SECURE CHECKOUT TEXT AT THE END */}
               <div className="relative py-2">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t border-white/5"></span>
                 </div>
                 <div className="relative flex justify-center">
-                  <span className="bg-[#0a0a0a] px-3 text-[10px] font-black uppercase tracking-[0.3em] text-gray-500 italic">
-                    Secure Checkout
-                  </span>
+                  <span className="bg-[#0a0a0a] px-3 text-[10px] font-black uppercase tracking-[0.3em] text-gray-500 italic">Secure Checkout</span>
                 </div>
               </div>
-
             </div>
             
-            <p className="text-center mt-6 text-[10px] text-white/20 font-black uppercase tracking-[0.3em]">
-              Instant Activation • Lifetime Access
-            </p>
+            <p className="text-center mt-6 text-[10px] text-white/20 font-black uppercase tracking-[0.3em]">Instant Activation • Lifetime Access</p>
           </div>
         </div>
       </div>
