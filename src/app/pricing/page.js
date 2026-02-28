@@ -9,14 +9,19 @@ export default function PricingPage() {
   const { user } = useUser();
 
   // POLAR HANDLER
- const handlePolar = () => {
-  // Use the ID from the end of your link in screenshot 3
-  const checkoutId = "polar_cl_ljGdwDcBNEETNFNjlbBfR1GzBDM4PA4ROrML43F6BK";
-  
-  const metadata = JSON.stringify({ userId: userId });
+const handlePolar = () => {
+  if (!userId) return;
 
-  // Redirect to your server-side checkout route
-  window.location.href = `/api/checkout?checkoutId=${checkoutId}&metadata=${encodeURIComponent(metadata)}`;
+  // 1. Use your REAL Product ID here
+  const productId = "2036d8ea-3685-4237-8b62-17eae052f8c0"; 
+  
+  // 2. Prepare metadata (keep this as is)
+  const metadata = JSON.stringify({ userId: userId });
+  
+  // 3. IMPORTANT: Change 'checkoutId' to 'products' in the URL below
+  const checkoutUrl = `/api/checkout?products=${productId}&metadata=${encodeURIComponent(metadata)}`;
+  
+  window.location.href = checkoutUrl;
 };
 
   // RAZORPAY HANDLER
