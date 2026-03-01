@@ -2,6 +2,9 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 
+
+  // ... rest of your clerk logic starts here
+
 // 1. Define public routes
 const isPublicRoute = createRouteMatcher([
   '/sign-in(.*)', 
@@ -18,6 +21,11 @@ export default clerkMiddleware(async (auth, req) => {
   const { pathname } = req.nextUrl;
   const isPublic = isPublicRoute(req);
   
+
+  // 1. IMMEDIATE BLOCK: If it looks like a bot, kill it in 1ms
+  if (pathname.includes('.php') || pathname.includes('/wp-') || pathname.includes('/wordpress')) {
+    return new NextResponse(null, { status: 404 });
+  }
   // Use your preferred name consistently
   const SESSION_COOKIE = "Langstr_session";
   const hasSessionCookie = req.cookies.has(SESSION_COOKIE);
