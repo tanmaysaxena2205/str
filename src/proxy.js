@@ -1,15 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-const { pathname } = req.nextUrl;
-
-// These are the exact paths showing up in your screenshot
-const BANNED_PATHS = ['/wp-admin', '/wordpress', '/sftp-config.json', '/.env'];
-
-if (BANNED_PATHS.some(path => pathname.toLowerCase().startsWith(path))) {
-  // This returns a "404" in roughly 1ms, saving 99% of the CPU
-  return new NextResponse(null, { status: 404 });
-}
 
 // 1. Define public routes
 const isPublicRoute = createRouteMatcher([
