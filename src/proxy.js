@@ -6,6 +6,7 @@ const isPublicRoute = createRouteMatcher([
   '/sign-in(.*)', 
   '/sign-up(.*)', 
   '/api/webhooks/clerk(.*)',
+  '/api/webhooks/polar(.*)', // Added to ensure payments process
   '/', 
   '/pricing',
   '/my-words',
@@ -16,26 +17,38 @@ export default clerkMiddleware(async (auth, req) => {
   const { pathname } = req.nextUrl;
   const isPublic = isPublicRoute(req);
   
-  // STEP 1: The "Fast Lane" check (CPU Saver)
-  // Checking a cookie string is nearly 0ms of Active CPU.
-  const hasSessionCookie = req.cookies.has("Langstr_session");
+  // Use your preferred name consistently
+  const SESSION_COOKIE = "Langstr_session";
+  const hasSessionCookie = req.cookies.has(SESSION_COOKIE);
 
-  // If it's a public page and they already have a session cookie, 
-  // skip the heavy Clerk auth check and let them through.
+  // STEP 1: Fast Lane - Skip Clerk if we have our custom session on a public page
+  // We exclude '/' so the dashboard redirect logic below can still run
   if (isPublic && pathname !== '/' && hasSessionCookie) {
     return NextResponse.next();
   }
 
-  // STEP 2: The "Heavy" check
-  // We only reach this line if the cookie is missing OR it's a private route.
+  // STEP 2: The "Heavy" Clerk check
   const { userId } = await auth();
+
+  // Handle Landing Page -> Dashboard redirect
+  if (userId && pathname === '/') {
+    return NextResponse.redirect(new URL('/dashboard', req.url));
+  }
+
+  // Handle Protected Routes
+  if (!userId && !isPublic) {
+    const response = NextResponse.redirect(new URL('/sign-up', req.url));
+    // Clean up cookie if it exists but user is actually logged out
+    if (hasSessionCookie) response.cookies.delete(SESSION_COOKIE);
+    return response;
+  }
+
   const response = NextResponse.next();
 
-  // STEP 3: Set the "Fast Lane" ticket
-  // If they are logged in, give them the cookie so the NEXT request is instant.
+  // STEP 3: Set the "Fast Lane" cookie if user is logged in
   if (userId && !hasSessionCookie) {
-    response.cookies.set("family_app_session", "true", {
-      maxAge: 60 * 60 * 24, // valid for 24 hours
+    response.cookies.set(SESSION_COOKIE, "true", {
+      maxAge: 60 * 60 * 24, // 24 hours
       path: '/',
       httpOnly: true, 
       secure: true,
@@ -43,21 +56,12 @@ export default clerkMiddleware(async (auth, req) => {
     });
   }
 
-  // Handle redirects for your Family unit
-  if (userId && pathname === '/') {
-    return NextResponse.redirect(new URL('/dashboard', req.url));
-  }
-
-  if (!userId && !isPublic) {
-    return NextResponse.redirect(new URL('/sign-up', req.url));
-  }
-
   return response;
 });
 
 export const config = {
   matcher: [
-    // This regex tells Next.js to COMPLETELY ignore static files (images, css, etc.)
+    // This ignores static files to save CPU time
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
     '/(api|trpc)(.*)',
   ],
