@@ -70,8 +70,12 @@ export default clerkMiddleware(async (auth, req) => {
 
 export const config = {
   matcher: [
-    // This ignores static files to save CPU time
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    /*
+     * 1. Ignore static files (your existing logic)
+     * 2. ADDED: Ignore common bot extensions (.php, .env, .aspx)
+     * 3. ADDED: Ignore common bot folders (/wp-admin, /wordpress, /phpmyadmin)
+     */
+    '/((?!_next|api|trpc|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest|php|env|aspx)|wp-admin|wordpress|phpmyadmin|sftp-config).*)',
     '/(api|trpc)(.*)',
   ],
 };
