@@ -19,7 +19,7 @@ export const SECTION_1_DATA = [
           // --- CONCEPT 2: THE CONNECTOR "UND" ---
           { type: "intro", word: "und", translation: "and", content: "'und' means and in English." },
           { type: "jumble", q: "The coffee and the water", options: ["das", "der", "und", "Wasser", "Kaffee"], a: "der Kaffee und das Wasser" },
-          { type: "jumble", q: "Water and coffee", options: ["und", "Kaffee", "Wasser"], a: "wasser und kaffee" },
+          { type: "jumble", q: "Water and coffee", options: ["und", "Kaffee", "Wasser"], a: "Wasser und Kaffee" },
 
           // --- CONCEPT 3: THE VERB "IST" ---
           { type: "intro", word: "ist", translation: "is", content: "'ist' links your subject to a description." },

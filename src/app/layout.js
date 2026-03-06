@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "LingoAI - Master Languages with AI",
-  description: "Personalized language learning platform",
+  title: "Langstr - Master Languages with AI",
+  description: "Personalized german language learning platform",
 };
 
 export default function RootLayout({ children }) {
