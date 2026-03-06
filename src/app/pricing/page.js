@@ -41,7 +41,7 @@ const handlePolar = () => {
 
     const options = {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-      amount: 35000, // ₹350 approx $4
+      amount: 44000, // ₹350 approx $4
       currency: "INR",
       name: "Langster",
       description: "Lifetime Premium Access",
@@ -116,7 +116,7 @@ const handlePolar = () => {
               </div>
             </div>
             <div className="flex items-baseline gap-2 mb-12">
-              <span className="text-9xl font-black text-white tracking-tighter">$4</span>
+              <span className="text-9xl font-black text-white tracking-tighter">$5</span>
               <span className="text-gray-500 font-black uppercase text-xl italic">USD</span>
             </div>
             <div className="space-y-6 mb-12">
