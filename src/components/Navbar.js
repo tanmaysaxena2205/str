@@ -57,7 +57,7 @@ export default function Navbar() {
             </SignedOut>
 
             <SignedIn>
-              <Link href="/dashboard" prefetch={false} className="text-sm font-bold text-gray-300 hover:text-orange-500 transition-all mr-2">
+              <Link href="/dashboard" prefetch={true} className="text-sm font-bold text-gray-300 hover:text-orange-500 transition-all mr-2">
                 Dashboard
               </Link>
               <UserButton 
@@ -97,7 +97,7 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                prefetch={false}
+                prefetch={true}
                 onClick={() => setIsMenuOpen(false)}
                 className="block text-xl font-bold text-gray-300 px-4 py-2 hover:text-orange-500"
               >
