@@ -6,7 +6,7 @@ export const SECTION_1_DATA = [
     unitId: "1",
     unitTitle: "The Drinks",
     levels: [
-    [
+    
   {
     levelId: "1",
     title: "The Drinks: The Master Foundation",
@@ -247,7 +247,7 @@ export const SECTION_1_DATA = [
     ]
   }
 ]
-    ]
+    
   },
   // src/data/section-1.js
 
