@@ -1,28 +1,28 @@
 'use client';
+import { useState } from 'react'; // Added
 import Link from 'next/link';
-import { Check, Infinity, ShieldCheck, ArrowRight } from 'lucide-react';
-import { useAuth, useUser } from "@clerk/nextjs"; 
+import { Check, Infinity, ShieldCheck, ArrowRight, TicketPercent } from 'lucide-react'; // Added TicketPercent
+import { useAuth, useUser } from "@clerk/nextjs";
 import { upgradeUserRole } from "@/lib/actions/user.actions";
 
 export default function PricingPage() {
   const { userId } = useAuth();
   const { user } = useUser();
 
-  // POLAR HANDLER
-const handlePolar = () => {
-  if (!userId) return;
+  // --- COUPON STATE ---
+  const [coupon, setCoupon] = useState("");
+  const isDiscounted = coupon === "RAHULPAREEK";
 
-  // 1. Use your REAL Product ID here
-  const productId = "2036d8ea-3685-4237-8b62-17eae052f8c0"; 
-  
-  // 2. Prepare metadata (keep this as is)
-  const metadata = JSON.stringify({ userId: userId });
-  
-  // 3. IMPORTANT: Change 'checkoutId' to 'products' in the URL below
-  const checkoutUrl = `/api/checkout?products=${productId}&metadata=${encodeURIComponent(metadata)}`;
-  
-  window.location.href = checkoutUrl;
-};
+  // POLAR HANDLER
+  const handlePolar = () => {
+    if (!userId) return;
+
+    const productId = "2036d8ea-3685-4237-8b62-17eae052f8c0";
+    const metadata = JSON.stringify({ userId: userId });
+    const checkoutUrl = `/api/checkout?products=${productId}&metadata=${encodeURIComponent(metadata)}`;
+
+    window.location.href = checkoutUrl;
+  };
 
   // RAZORPAY HANDLER
   const handleRazorpay = async () => {
@@ -41,7 +41,8 @@ const handlePolar = () => {
 
     const options = {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-      amount: 44000, // ₹350 approx $4
+      // Dynamic amount logic here
+      amount: isDiscounted ? 36000 : 45000, 
       currency: "INR",
       name: "Langster",
       description: "Lifetime Premium Access",
@@ -53,10 +54,10 @@ const handlePolar = () => {
           console.error("Upgrade failed:", error);
         }
       },
-      prefill: { 
+      prefill: {
         name: user?.fullName || "Learner",
         email: user?.primaryEmailAddress?.emailAddress || "",
-        contact: "918888888888" 
+        contact: "918888888888"
       },
       readonly: {
         contact: true,
@@ -73,7 +74,7 @@ const handlePolar = () => {
   return (
     <main className="bg-[#050505] text-white min-h-[100dvh] flex items-center justify-center px-6 lg:px-20">
       <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center py-12">
-       
+
         {/* --- LEFT SIDE: THE PITCH --- */}
         <div className="space-y-8 text-left">
           <div className="space-y-4">
@@ -87,14 +88,14 @@ const handlePolar = () => {
             </p>
           </div>
           <div className="flex flex-col gap-4">
-             <div className="flex items-center gap-3 text-white/60">
-                <Infinity className="text-orange-500" size={24} />
-                <span className="font-bold uppercase tracking-wide text-sm">Lifetime updates included</span>
-             </div>
-             <div className="flex items-center gap-3 text-white/60">
-                <ShieldCheck className="text-orange-500" size={24} />
-                <span className="font-bold uppercase tracking-wide text-sm">Secure one-time checkout</span>
-             </div>
+            <div className="flex items-center gap-3 text-white/60">
+              <Infinity className="text-orange-500" size={24} />
+              <span className="font-bold uppercase tracking-wide text-sm">Lifetime updates included</span>
+            </div>
+            <div className="flex items-center gap-3 text-white/60">
+              <ShieldCheck className="text-orange-500" size={24} />
+              <span className="font-bold uppercase tracking-wide text-sm">Secure one-time checkout</span>
+            </div>
           </div>
           <Link href="/" prefetch={false} className="inline-flex items-center gap-2 text-white/20 hover:text-white transition-colors font-black uppercase tracking-widest text-xs">
             <ArrowRight className="rotate-180" size={16} /> Back to Home
@@ -104,7 +105,7 @@ const handlePolar = () => {
         {/* --- RIGHT SIDE: THE LARGE CARD --- */}
         <div className="relative w-full max-w-xl justify-self-center lg:justify-self-end">
           <div className="absolute -inset-2 bg-orange-500 rounded-[3.5rem] blur-2xl opacity-10"></div>
-         
+
           <div className="relative bg-[#0a0a0a] border-2 border-white/5 rounded-[3.5rem] p-12 md:p-16 shadow-2xl">
             <div className="flex justify-between items-start mb-12">
               <div>
@@ -116,7 +117,9 @@ const handlePolar = () => {
               </div>
             </div>
             <div className="flex items-baseline gap-2 mb-12">
-              <span className="text-9xl font-black text-white tracking-tighter">$5</span>
+              <span className="text-9xl font-black text-white tracking-tighter">
+                {isDiscounted ? "$4" : "$5"}
+              </span>
               <span className="text-gray-500 font-black uppercase text-xl italic">USD</span>
             </div>
             <div className="space-y-6 mb-12">
@@ -128,8 +131,22 @@ const handlePolar = () => {
 
             {/* PAYMENT GATEWAYS */}
             <div className="flex flex-col gap-2">
-             
-              {/* 1. POLAR (REPLACED PAYPAL) */}
+
+              {/* COUPON INPUT */}
+              <div className="mb-4 relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20">
+                  <TicketPercent size={18} />
+                </div>
+                <input 
+                  type="text"
+                  placeholder="PROMO CODE"
+                  value={coupon}
+                  onChange={(e) => setCoupon(e.target.value.toUpperCase())}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-xs font-black uppercase tracking-widest focus:outline-none focus:border-orange-500/50 transition-colors placeholder:text-white/10"
+                />
+              </div>
+
+              {/* 1. POLAR */}
               <button
                 onClick={handlePolar}
                 className="w-full bg-white hover:bg-gray-100 h-[55px] rounded-lg flex items-center justify-center transition-all shadow-md active:scale-[0.98] px-4 group"
@@ -180,7 +197,7 @@ const handlePolar = () => {
                 </div>
               </div>
             </div>
-           
+
             <p className="text-center mt-6 text-[10px] text-white/20 font-black uppercase tracking-[0.3em]">
               Instant Activation • Lifetime Access
             </p>
