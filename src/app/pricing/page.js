@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react'; // Added
 import Link from 'next/link';
-import { Check, Infinity, ShieldCheck, ArrowRight, TicketPercent } from 'lucide-react'; // Added TicketPercent
+import { Check, Infinity, ShieldCheck, ArrowRight, TicketPercent,Trophy } from 'lucide-react'; // Added TicketPercent
 import { useAuth, useUser } from "@clerk/nextjs";
 import { upgradeUserRole } from "@/lib/actions/user.actions";
 
@@ -87,16 +87,21 @@ export default function PricingPage() {
               Unlock every lesson, unit, and feature we offer. No subscriptions, no monthly bills. Just a one-time path to mastery.
             </p>
           </div>
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-3 text-white/60">
-              <Infinity className="text-orange-500" size={24} />
-              <span className="font-bold uppercase tracking-wide text-sm">Lifetime updates included</span>
-            </div>
-            <div className="flex items-center gap-3 text-white/60">
-              <ShieldCheck className="text-orange-500" size={24} />
-              <span className="font-bold uppercase tracking-wide text-sm">Secure one-time checkout</span>
-            </div>
-          </div>
+         <div className="flex flex-col gap-4">
+  <div className="flex items-center gap-3 text-white/60">
+    <Infinity className="text-orange-500" size={24} />
+    <span className="font-bold uppercase tracking-wide text-sm">Lifetime updates included</span>
+  </div>
+  <div className="flex items-center gap-3 text-white/60">
+    <ShieldCheck className="text-orange-500" size={24} />
+    <span className="font-bold uppercase tracking-wide text-sm">Secure one-time checkout</span>
+  </div>
+  {/* New feature item added below */}
+  <div className="flex items-center gap-3 text-white/60">
+    <Trophy className="text-orange-500" size={24} />
+    <span className="font-bold uppercase tracking-wide text-sm">$1000 refund or Lifetime German Coaching On Completion</span>
+  </div>
+</div>
           <Link href="/" prefetch={false} className="inline-flex items-center gap-2 text-white/20 hover:text-white transition-colors font-black uppercase tracking-widest text-xs">
             <ArrowRight className="rotate-180" size={16} /> Back to Home
           </Link>

@@ -9,11 +9,11 @@ export default async function DashboardPage() {
   const { userId } = await auth();
   if (!userId) redirect("/sign-in");
 
-  // Use .lean() in your getUserById function if using Mongoose to save ~200ms
+ 
   const user = await getUserById(userId);
   if (!user) redirect("/onboarding");
-
-  return (
+          
+  return ( 
     <div className="min-h-screen bg-[#0a0a0a] text-white font-sans pb-20 overflow-x-hidden">
       <main className="relative z-10 max-w-5xl mx-auto px-4 md:px-6 mt-8 md:mt-16">
         <CurriculumList user={user} />
@@ -30,8 +30,7 @@ function CurriculumList({ user }) {
   
   const today = new Date().toDateString();
   const isDailyLimitReached = isFreeUser && user?.lastLevelCompletedAt && 
-    new Date(user.lastLevelCompletedAt).toDateString() === today;
-
+  new Date(user.lastLevelCompletedAt).toDateString() === today;
   return (
     <>
       {SCROLL_DATA.map((section) => {

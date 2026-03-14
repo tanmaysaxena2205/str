@@ -13,6 +13,7 @@
     "@paypal/react-paypal-js": "^8.9.2",
     "@polar-sh/nextjs": "^0.9.3",
     "@polar-sh/sdk": "^0.45.1",
+    "framer-motion": "^12.36.0",
     "lucide-react": "^0.564.0",
     "mongoose": "^9.2.1",
     "next": "16.1.6",

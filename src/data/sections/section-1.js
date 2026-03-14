@@ -495,77 +495,297 @@ export const SECTION_1_DATA = [
   unitId: "3",
   unitTitle: "Use Adjectives",
   levels: [
-    // src/data/section-1.js (Unit 3, Level 1)
-// src/data/section-1.js (Unit 3, Level 1)
-{
-  levelId: "1",
-  title: "Common Opposites",
-  questions: [
-    // --- ITEM 1: TRAURIG vs GLÜCKLICH (SAD/HAPPY) ---
-    { 
-      type: "intro", 
-      word: "traurig / glücklich", 
-      translation: "sad / happy", 
-      content: "Describe emotions! 'Traurig' (sad) and 'glücklich' (happy)." 
+    // --- LEVEL 1: COMMON OPPOSITES ---
+    {
+      levelId: "1",
+      title: "Common Opposites",
+      questions: [
+        { 
+          type: "intro", 
+          word: "traurig / glücklich", 
+          translation: "sad / happy", 
+          content: "Describe emotions! 'Traurig' (sad) and 'glücklich' (happy)." 
+        },
+        
+        { type: "choice", q: "How do you say 'happy'?", options: ["glücklich", "traurig"], a: "glücklich" },
+        { type: "jumble", q: "My daughter is happy", options: ["glücklich", "ist", "meine", "Tochter"], a: "meine Tochter ist glücklich" },
+        { type: "jumble", q: "Your son is sad", options: ["traurig", "ist", "dein", "Sohn"], a: "dein Sohn ist traurig" },
+        { 
+          type: "intro", 
+          word: "müde / wach", 
+          translation: "tired / awake", 
+          content: "Use 'müde' for tired and 'wach' for awake." 
+        },
+        { type: "choice", q: "If you want to sleep, you are...", options: ["wach", "müde"], a: "müde" },
+        { type: "jumble", q: "My Grandfather is awake but my grandmother is tired", options: ["müde", "ist", "Oma", "meine", "aber", "wach", "ist", "Opa", "mein"], a: "mein Opa ist wach aber meine Oma ist müde" },
+        { 
+          type: "intro", 
+          word: "schnell / langsam", 
+          translation: "fast / slow", 
+          content: "Describe movement! 'Schnell' (fast) vs 'Langsam' (slow)." 
+        },
+        
+        { type: "choice", q: "Which word means 'fast'?", options: ["schnell", "langsam"], a: "schnell" },
+        { type: "jumble", q: "Your grandson is fast", options: ["schnell", "ist", "dein", "Enkel"], a: "dein Enkel ist schnell" },
+        { type: "jumble", q: "My grandmother is slow", options: ["langsam", "ist", "meine", "Oma"], a: "meine Oma ist langsam" },
+        { 
+          type: "intro", 
+          word: "laut / leise", 
+          translation: "loud / quiet", 
+          content: "Is the family dinner 'laut' or 'leise'?" 
+        },
+        { type: "choice", q: "Which one means 'quiet'?", options: ["laut", "leise"], a: "leise" },
+        { type: "jumble", q: "The children are very loud", options: ["laut", "sehr", "sind", "Kinder", "die"], a: "die Kinder sind sehr laut" },
+        { 
+          type: "intro", 
+          word: "klug / dumm", 
+          translation: "smart / dumb", 
+          content: "Use 'klug' for smart. Avoid 'dumm' unless you're joking!" 
+        },
+        { type: "choice", q: "Which word means 'smart'?", options: ["klug", "dumm"], a: "klug" },
+        { type: "jumble", q: "My family is very smart", options: ["klug", "sehr", "ist", "meine", "Familie"], a: "meine Familie ist sehr klug" },
+        { type: "boss", q: "Translate: 'Is your granddaughter smart?'", options: ["Ist deine Enkelin klug?", "Ist dein Enkelin klug?"], a: "Ist deine Enkelin klug?" },
+        { type: "boss", q: "Final: My cousin is fast but she is tired", options: ["müde", "ist", "sie", "aber", "schnell", "Cousine", "meine"], a: "meine Cousine ist schnell aber sie ist müde" }
+      ]
     },
-    
-    { type: "choice", q: "How do you say 'My daughter is happy'?", options: ["Meine Tochter ist glücklich", "Meine Tochter ist traurig"], a: "Meine Tochter ist glücklich" },
-    { type: "jumble", q: "Your son is sad", options: ["traurig", "ist", "dein", "Sohn"], a: "dein Sohn ist traurig" },
 
-    // --- ITEM 2: MÜDE vs WACH (TIRED/AWAKE) ---
-    { 
-      type: "intro", 
-      word: "müde / wach", 
-      translation: "tired / awake", 
-      content: "Use 'müde' for tired and 'wach' for awake." 
+    // --- LEVEL 2: COLORS & SIZES ---
+    {
+      levelId: "2",
+      title: "Colors & Sizes",
+      questions: [
+        { type: "intro", word: "rot / blau", translation: "red / blue", content: "Primary colors! 'Rot' and 'Blau'." },
+        
+        { type: "jumble", q: "The car is red", options: ["rot", "ist", "Auto", "das"], a: "das Auto ist rot" },
+        { type: "jumble", q: "Is your car blue?", options: ["blau", "Auto", "dein", "Ist"], a: "Ist dein Auto blau" },
+        { type: "intro", word: "schwarz / weiß", translation: "black / white", content: "'Schwarz' and 'Weiß'." },
+        { type: "choice", q: "What color is a zebra?", options: ["schwarz und weiß", "rot und blau"], a: "schwarz und weiß" },
+        { type: "jumble", q: "My sister is black and white", options: ["weiß", "und", "schwarz", "ist", "Schwester", "meine"], a: "meine Schwester ist schwarz und weiß" },
+        { type: "intro", word: "gelb / grün", translation: "yellow / green", content: "'Gelb' and 'Grün'." },
+        { type: "jumble", q: "The apple is green", options: ["grün", "ist", "Apfel", "der"], a: "der Apfel ist grün" },
+        { type: "intro", word: "lang / kurz", translation: "long / short", content: "Use 'lang' (long) and 'kurz' (short) for objects." },
+        { type: "choice", q: "Opposite of 'kurz'?", options: ["lang", "weiß"], a: "lang" },
+        { type: "jumble", q: "The long car is yellow", options: ["gelb", "ist", "Auto", "lange", "das"], a: "das lange Auto ist gelb" },
+        { type: "intro", word: "neu / alt", translation: "new / old", content: "We use 'alt' for things too! 'Neu' is the opposite." },
+        { type: "jumble", q: "Is the car new or old?", options: ["alt", "oder", "neu", "Auto", "das", "Ist"], a: "Ist das Auto neu oder alt" },
+        { type: "jumble", q: "My grandson is small and his car is blue", options: ["blau", "ist", "Auto", "sein", "und", "klein", "ist", "Enkel", "mein"], a: "mein Enkel ist klein und sein Auto ist blau" },
+        { type: "boss", q: "Translate: 'The white car is new.'", options: ["Das weiße Auto ist neu", "Das weiß Auto ist neu"], a: "Das weiße Auto ist neu" },
+        { type: "boss", q: "Final: 'The red apple is small.'", options: ["Der rote Apfel ist klein", "Der rot Apfel ist klein"], a: "Der rote Apfel ist klein" }
+      ]
     },
-    { type: "choice", q: "If you want to sleep, you are...", options: ["wach", "müde"], a: "müde" },
-    { type: "jumble", q: "My Grandfather is awake but my grandmother is tired", options: ["müde", "ist", "Oma", "meine", "aber", "wach", "ist", "Opa", "mein"], a: "mein Opa ist wach aber meine Oma ist müde" },
 
-    // --- ITEM 3: SCHNELL vs LANGSAM (FAST/SLOW) ---
-    { 
-      type: "intro", 
-      word: "schnell / langsam", 
-      translation: "fast / slow", 
-      content: "Describe movement! 'Schnell' (fast) vs 'Langsam' (slow)." 
+    // --- LEVEL 3: BASIC SENTENCE STRUCTURE ---
+    {
+      levelId: "3",
+      title: "Basic Sentence Structure",
+      questions: [
+        { type: "intro", word: "Subjekt + ist + Adjektiv", translation: "Sentence order", content: "Simple order: 'Mein Bruder (Subjekt) ist (Verb) klug (Adjektiv)'." },
+        { type: "jumble", q: "My nephew is smart", options: ["klug", "ist", "Neffe", "mein"], a: "mein Neffe ist klug" },
+        { type: "intro", word: "nicht", translation: "not", content: "Put 'nicht' before the adjective to negate it." },
+        { type: "choice", q: "How to say 'is not tired'?", options: ["ist nicht müde", "nicht ist müde"], a: "ist nicht müde" },
+        { type: "jumble", q: "My niece is not slow", options: ["langsam", "nicht", "ist", "Nichte", "meine"], a: "meine Nichte ist nicht langsam" },
+        { type: "intro", word: "ist / sind", translation: "is / are", content: "One person = ist. Multiple people = sind." },
+        { type: "jumble", q: "The children are not quiet", options: ["leise", "nicht", "sind", "Kinder", "die"], a: "die Kinder sind nicht leise" },
+        { type: "intro", word: "auch", translation: "also / too", content: "Use 'auch' to add an adjective: 'Er ist auch groß'." },
+        { type: "jumble", q: "Your son is also fast", options: ["schnell", "auch", "ist", "Sohn", "dein"], a: "dein Sohn ist auch schnell" },
+        { type: "intro", word: "aber", translation: "but", content: "Connect different thoughts with 'aber'." },
+        { type: "jumble", q: "She is happy but tired", options: ["müde", "aber", "glücklich", "ist", "sie"], a: "sie ist glücklich aber müde" },
+        { type: "jumble", q: "My daughter is smart but not loud", options: ["laut", "nicht", "aber", "klug", "ist", "Tochter", "meine"], a: "meine Tochter ist klug aber nicht laut" },
+        { type: "boss", q: "Translate: 'They are not awake.'", options: ["Sie sind nicht wach", "Sie ist nicht wach"], a: "Sie sind nicht wach" },
+        { type: "boss", q: "Final Boss: 'He is loud but also very nice.'", options: ["Er ist laut aber auch sehr nett", "Er ist leise aber auch sehr nett"], a: "Er ist laut aber auch sehr nett" }
+      ]
     },
-    
-    { type: "jumble", q: "Your grandson is fast", options: ["schnell", "ist", "dein", "Enkel"], a: "dein Enkel ist schnell" },
-    { type: "jumble", q: "My grandmother is slow", options: ["langsam", "ist", "meine", "Oma"], a: "meine Oma ist langsam" },
 
-    // --- ITEM 4: LAUT vs LEISE (LOUD/QUIET) ---
-    { 
-      type: "intro", 
-      word: "laut / leise", 
-      translation: "loud / quiet", 
-      content: "Is the family dinner 'laut' or 'leise'?" 
+    // --- LEVEL 4: INTENSITY: SEHR & GANZ ---
+    {
+      levelId: "4",
+      title: "Intensity: Sehr & Ganz",
+      questions: [
+        { type: "intro", word: "sehr", translation: "very", content: "Use 'sehr' to make adjectives stronger." },
+        { type: "jumble", q: "My father is very old", options: ["alt", "sehr", "ist", "Vater", "mein"], a: "mein Vater ist sehr alt" },
+        { type: "intro", word: "ganz", translation: "quite / really", content: "In German, 'ganz' can mean 'quite' or 'completely'." },
+        { type: "choice", q: "Which means 'quite smart'?", options: ["ganz klug", "sehr klug"], a: "ganz klug" },
+        { type: "jumble", q: "The car is quite fast", options: ["schnell", "ganz", "ist", "Auto", "das"], a: "das Auto ist ganz schnell" },
+        { type: "intro", word: "wirklich", translation: "really", content: "Use 'wirklich' for total emphasis." },
+        { type: "jumble", q: "Your niece is really fast", options: ["schnell", "wirklich", "ist", "Nichte", "deine"], a: "deine Nichte ist wirklich schnell" },
+        { type: "intro", word: "zu", translation: "too", content: "Use 'zu' when something is 'too much' (e.g., too loud)." },
+        { type: "jumble", q: "The children are too loud", options: ["laut", "zu", "sind", "Kinder", "die"], a: "die Kinder sind zu laut" },
+        { type: "intro", word: "extrem", translation: "extremely", content: "For maximum intensity!" },
+        { type: "jumble", q: "My brother is extremely happy", options: ["glücklich", "extrem", "ist", "Bruder", "mein"], a: "mein Bruder ist extrem glücklich" },
+        { type: "jumble", q: "My car is too old but it is very fast", options: ["schnell", "sehr", "ist", "es", "aber", "alt", "zu", "ist", "Auto", "mein"], a: "mein Auto ist zu alt aber es ist sehr schnell" },
+        { type: "boss", q: "Translate: 'The red car is extremely slow.'", options: ["Das rote Auto ist extrem langsam", "Das rot Auto ist extrem langsam"], a: "Das rote Auto ist extrem langsam" },
+        { type: "boss", q: "Final: 'The children are quite quiet today.'", options: ["Die Kinder sind ganz leise heute", "Die Kinder ist ganz leise heute"], a: "Die Kinder sind ganz leise heute" }
+      ]
     },
-    { type: "choice", q: "Which one means 'quiet'?", options: ["laut", "leise"], a: "leise" },
-    { type: "jumble", q: "The children are very loud", options: ["laut", "sehr", "sind", "Kinder", "die"], a: "die Kinder sind sehr laut" },
 
-    // --- ITEM 5: KLUG vs DUMM (SMART/DUMB) ---
-    { 
-      type: "intro", 
-      word: "klug / dumm", 
-      translation: "smart / dumb", 
-      content: "Use 'klug' for smart. Avoid 'dumm' unless you're joking!" 
-    },
-    { type: "choice", q: "Which word means 'smart'?", options: ["klug", "dumm"], a: "klug" },
-    { type: "jumble", q: "My family is very smart", options: ["klug", "sehr", "ist", "meine", "Familie"], a: "meine Familie ist sehr klug" },
-
-    // --- PROGRESSIVE MIXING (Using Unit 2 Family Tree + New Adjectives) ---
-    { type: "jumble", q: "My niece is happy and my nephew is loud", options: ["laut", "ist", "Neffe", "mein", "und", "glücklich", "ist", "Nichte", "meine"], a: "meine Nichte ist glücklich und mein Neffe ist laut" },
-    { type: "jumble", q: "Is your uncle slow or fast?", options: ["schnell", "oder", "langsam", "Onkel", "dein", "Ist"], a: "Ist dein Onkel langsam oder schnell" },
-    { type: "jumble", q: "The parents are tired but the children are awake", options: ["wach", "sind", "Kinder", "die", "aber", "müde", "sind", "Eltern", "die"], a: "die Eltern sind müde aber die Kinder sind wach" },
-
-    // --- FINAL BOSS CHALLENGES ---
-    { type: "boss", q: "Translate: 'Is your granddaughter smart?'", options: ["Ist deine Enkelin klug?", "Ist dein Enkelin klug?"], a: "Ist deine Enkelin klug?" },
-    { type: "boss", q: "Which is the opposite of 'leise'?", options: ["laut", "schnell", "wach"], a: "laut" },
-    { type: "jumble", q: "Final: My cousin is fast but she is tired", options: ["müde", "ist", "sie", "aber", "schnell", "ist", "Cousine", "meine"], a: "meine Cousine ist schnell aber sie ist müde" },
-    { type: "boss", q: "Which word means 'awake'?", options: ["wach", "müde"], a: "wach" },
-    { type: "boss", q: "Final Test: 'My family is happy.'", options: ["Meine Familie ist glücklich", "Mein Familie ist glücklich"], a: "Meine Familie ist glücklich" }
+    // --- LEVEL 5: ADJECTIVE MASTER CLASS ---
+    {
+      levelId: "5",
+      title: "Adjective Master Class",
+      questions: [
+        { type: "intro", word: "Review", translation: "Final Exam", content: "Time to mix colors, intensity, and family!" },
+        { type: "jumble", q: "My black car is very fast", options: ["schnell", "sehr", "ist", "Auto", "schwarzes", "mein"], a: "mein schwarzes Auto ist sehr schnell" },
+        { type: "intro", word: "so... wie", translation: "as... as", content: "Use 'so... wie' for comparisons." },
+        { type: "choice", q: "How to say 'as smart as'?", options: ["so klug wie", "sehr klug wie"], a: "so klug wie" },
+        { type: "jumble", q: "He is as old as my opa", options: ["Opa", "mein", "wie", "alt", "so", "ist", "er"], a: "er ist so alt wie mein Opa" },
+        { type: "intro", word: "alles", translation: "everything", content: "'Alles' describes the whole situation." },
+        { type: "jumble", q: "Everything is green and red", options: ["rot", "und", "grün", "ist", "alles"], a: "alles ist grün und rot" },
+        { type: "intro", word: "genug", translation: "enough", content: "Put 'genug' after the adjective (e.g., klug genug)." },
+        { type: "jumble", q: "Is your nephew smart enough?", options: ["genug", "klug", "Neffe", "dein", "Ist"], a: "Ist dein Neffe klug genug" },
+        { type: "intro", word: "total", translation: "totally", content: "Commonly used for emphasis in casual speech." },
+        { type: "jumble", q: "My niece is totally happy", options: ["glücklich", "total", "ist", "Nichte", "meine"], a: "meine Nichte ist total glücklich" },
+        { type: "jumble", q: "The white car is not fast enough", options: ["genug", "schnell", "nicht", "ist", "Auto", "weiße", "das"], a: "das weiße Auto ist nicht schnell genug" },
+        { type: "boss", q: "Final Boss: 'Everything is red but my car is really black.'", options: ["Alles ist rot aber mein Auto ist wirklich schwarz", "Alles ist blau aber mein Auto ist grün"], a: "Alles ist rot aber mein Auto ist wirklich schwarz" }
+      
+      ]
+    }
   ]
-}
+},{
+  unitId: "4",
+  unitTitle: "Greet People",
+  levels: [
+    // --- LEVEL 1: MORNING, DAY & NIGHT ---
+    {
+      levelId: "1",
+      title: "Morning, Day & Night",
+      questions: [
+        { id: "4-1-1", type: "intro", word: "Guten Morgen", translation: "Good Morning", content: "Use this until 11:00 AM." },
+        
+        { id: "4-1-2", type: "choice", q: "How do you greet your father at 8 AM?", options: ["Guten Tag", "Guten Morgen"], a: "Guten Morgen" },
+        { id: "4-1-3", type: "jumble", q: "Good morning my son", options: ["Sohn", "Morgen", "mein", "Guten"], a: "Guten Morgen mein Sohn" },
+        { id: "4-1-4", type: "choice", q: "Translate: 'Good morning mother'", options: ["Guten Morgen Mutter", "Guten Tag Mutter"], a: "Guten Morgen Mutter" },
+        { id: "4-1-5", type: "intro", word: "Guten Tag", translation: "Good Day", content: "The most common greeting from noon until evening." },
+        { id: "4-1-6", type: "jumble", q: "Good day my niece", options: ["Tag", "Nichte", "Guten", "meine"], a: "Guten Tag meine Nichte" },
+        { id: "4-1-7", type: "choice", q: "Is 'Guten Tag' for the morning?", options: ["Yes", "No"], a: "No" },
+        { id: "4-1-8", type: "jumble", q: "The day is very happy", options: ["Tag", "glücklich", "der", "sehr", "ist"], a: "der Tag ist sehr glücklich" },
+        { id: "4-1-9", type: "intro", word: "Guten Abend", translation: "Good Evening", content: "Use this when the sun goes down (6 PM+)." },
+        { id: "4-1-10", type: "choice", q: "Greeting at 8 PM?", options: ["Guten Abend", "Guten Morgen"], a: "Guten Abend" },
+        { id: "4-1-11", type: "jumble", q: "Good evening my family", options: ["Guten", "meine", "Abend", "Familie"], a: "Guten Abend meine Familie" },
+        { id: "4-1-12", type: "intro", word: "Gute Nacht", translation: "Good Night", content: "Only used when someone is going to sleep! Notice it is 'Gute' not 'Guten'." },
+        
+        { id: "4-1-13", type: "choice", q: "Which is correct for sleeping?", options: ["Guten Nacht", "Gute Nacht"], a: "Gute Nacht" },
+        { id: "4-1-14", type: "jumble", q: "Good night my granddaughter", options: ["Nacht", "meine", "Enkelin", "Gute"], a: "Gute Nacht meine Enkelin" },
+        { id: "4-1-15", type: "intro", word: "Schlaf gut", translation: "Sleep well", content: "The standard follow-up to Gute Nacht." },
+        { id: "4-1-16", type: "jumble", q: "Sleep well my grandson", options: ["gut", "Schlaf", "mein", "Enkel"], a: "Schlaf gut mein Enkel" },
+        { id: "4-1-17", type: "choice", q: "Is your nephew tired?", options: ["Ist dein Neffe müde?", "Hat dein Neffe müde?"], a: "Ist dein Neffe müde?" },
+        { id: "4-1-18", type: "jumble", q: "Good evening everything is quiet", options: ["Guten", "leise", "Abend", "ist", "alles"], a: "Guten Abend alles ist leise" },
+        { id: "4-1-19", type: "choice", q: "Opposite of 'Guten Morgen'?", options: ["Guten Tag", "Guten Abend"], a: "Guten Abend" },
+        { id: "4-1-20", type: "boss", q: "Final: Good morning, is the coffee hot?", options: ["Guten Morgen, ist der Kaffee heiß?", "Guten Abend, ist der Kaffee heiß?"], a: "Guten Morgen, ist der Kaffee heiß?" }
+      ]
+    },
+
+    // --- LEVEL 2: FORMAL VS. INFORMAL ---
+    {
+      levelId: "2",
+      title: "Formal vs. Informal",
+      questions: [
+        { id: "4-2-1", type: "intro", word: "Hallo / Hi", translation: "Hello / Hi", content: "Informal. Use with friends and family." },
+        { id: "4-2-2", type: "choice", q: "Greet your brother:", options: ["Guten Tag", "Hallo"], a: "Hallo" },
+        { id: "4-2-3", type: "jumble", q: "Hello my smart cousin", options: ["mein", "kluger", "Cousin", "Hallo"], a: "Hallo mein kluger Cousin" },
+        { id: "4-2-4", type: "intro", word: "Grüß Gott / Moin", translation: "Regional Greetings", content: "'Grüß Gott' (South), 'Moin' (North)." },
+        { id: "4-2-5", type: "choice", q: "Greeting in Munich (South)?", options: ["Moin", "Grüß Gott"], a: "Grüß Gott" },
+        { id: "4-2-6", type: "jumble", q: "Hello everything is red", options: ["ist", "alles", "rot", "Hallo"], a: "Hallo alles ist rot" },
+        { id: "4-2-7", type: "intro", word: "Tschüss", translation: "Bye", content: "The most common informal way to say goodbye." },
+        { id: "4-2-8", type: "choice", q: "Saying goodbye to a friend?", options: ["Tschüss", "Guten Tag"], a: "Tschüss" },
+        { id: "4-2-9", type: "jumble", q: "Bye my nice niece", options: ["Tschüss", "nette", "meine", "Nichte"], a: "Tschüss meine nette Nichte" },
+        { id: "4-2-10", type: "intro", word: "Auf Wiedersehen", translation: "Goodbye", content: "Formal goodbye. Use for strangers or professionals." },
+        
+        { id: "4-2-11", type: "choice", q: "Formal goodbye?", options: ["Auf Wiedersehen", "Tschüss"], a: "Auf Wiedersehen" },
+        { id: "4-2-12", type: "jumble", q: "Goodbye my family is big", options: ["Wiedersehen", "groß", "ist", "Auf", "meine", "Familie"], a: "Auf Wiedersehen meine Familie ist groß" },
+        { id: "4-2-13", type: "intro", word: "Bis später / Bis bald", translation: "See you later / See you soon", content: "Informal ends to a talk." },
+        { id: "4-2-14", type: "choice", q: "Which means 'See you soon'?", options: ["Bis später", "Bis bald"], a: "Bis bald" },
+        { id: "4-2-15", type: "jumble", q: "See you later my nephew", options: ["später", "Bis", "Neffe", "mein"], a: "Bis später mein Neffe" },
+        { id: "4-2-16", type: "choice", q: "Is 'Hallo' formal?", options: ["No", "Yes"], a: "No" },
+        { id: "4-2-17", type: "jumble", q: "Hello your car is very fast", options: ["schnell", "Hallo", "sehr", "ist", "Auto", "dein"], a: "Hallo dein Auto ist sehr schnell" },
+        { id: "4-2-18", type: "choice", q: "Opposite of 'Hallo'?", options: ["Tschüss", "Moin"], a: "Tschüss" },
+        { id: "4-2-19", type: "jumble", q: "Goodbye the children are happy", options: ["Wiedersehen", "glücklich", "sind", "Auf", "Kinder", "die"], a: "Auf Wiedersehen die Kinder sind glücklich" },
+        { id: "4-2-20", type: "boss", q: "Final: Formal 'Hello' and 'Goodbye'", options: ["Hallo / Tschüss", "Guten Tag / Auf Wiedersehen"], a: "Guten Tag / Auf Wiedersehen" }
+      ]
+    },
+
+    // --- LEVEL 3: HOW ARE YOU? ---
+    {
+      levelId: "3",
+      title: "How are you?",
+      questions: [
+        { id: "4-3-1", type: "intro", word: "Wie geht es dir?", translation: "How are you? (Informal)", content: "Literally: 'How goes it to you?'" },
+        { id: "4-3-2", type: "choice", q: "Ask your sister how she is:", options: ["Wie geht es Ihnen?", "Wie geht es dir?"], a: "Wie geht es dir?" },
+        { id: "4-3-3", type: "jumble", q: "Hello how are you cousin", options: ["geht", "es", "dir", "Wie", "Cousin", "Hallo"], a: "Hallo Wie geht es dir Cousin" },
+        { id: "4-3-4", type: "intro", word: "Mir geht es gut", translation: "I am doing well", content: "The standard response. 'Mir' means 'to me'." },
+        { id: "4-3-5", type: "choice", q: "Respond: 'I am well'", options: ["Mir geht es gut", "Mir geht es schlecht"], a: "Mir geht es gut" },
+        { id: "4-3-6", type: "jumble", q: "I am well and happy", options: ["Mir", "geht", "gut", "es", "und", "glücklich"], a: "Mir geht es gut und glücklich" },
+        { id: "4-3-7", type: "intro", word: "Und dir?", translation: "And you?", content: "The informal follow-up question." },
+        { id: "4-3-8", type: "choice", q: "Ask 'And you?' back to a friend:", options: ["Und Ihnen?", "Und dir?"], a: "Und dir?" },
+        { id: "4-3-9", type: "jumble", q: "I am tired and you", options: ["Ich", "müde", "Und", "bin", "dir"], a: "Ich bin müde Und dir" },
+        { id: "4-3-10", type: "intro", word: "Wie geht es Ihnen?", translation: "How are you? (Formal)", content: "Use for adults or strangers." },
+        
+        { id: "4-3-11", type: "choice", q: "Formal 'How are you?'", options: ["Wie geht es Ihnen?", "Wie geht es dir?"], a: "Wie geht es Ihnen?" },
+        { id: "4-3-12", type: "jumble", q: "Good day how are you (formal)", options: ["es", "geht", "Guten", "Wie", "Tag", "Ihnen"], a: "Guten Tag Wie geht es Ihnen" },
+        { id: "4-3-13", type: "intro", word: "Schlecht", translation: "Bad", content: "When things aren't going well." },
+        { id: "4-3-14", type: "choice", q: "Translate: 'Bad'", options: ["Schlecht", "Gut"], a: "Schlecht" },
+        { id: "4-3-15", type: "jumble", q: "My niece is doing bad", options: ["es", "meiner", "schlecht", "geht", "Nichte"], a: "meiner Nichte geht es schlecht" },
+        { id: "4-3-16", type: "choice", q: "Ask 'And you?' formally:", options: ["Und dir?", "Und Ihnen?"], a: "Und Ihnen?" },
+        { id: "4-3-17", type: "jumble", q: "I am smart, I am doing well", options: ["klug", "bin", "Mir", "gut", "es", "geht", "Ich"], a: "Ich bin klug Mir geht es gut" },
+        { id: "4-3-18", type: "choice", q: "Is 'Mir geht es gut' used for both?", options: ["Yes", "No"], a: "Yes" },
+        { id: "4-3-19", type: "jumble", q: "The family is doing well", options: ["gut", "der", "es", "geht", "Familie"], a: "der Familie geht es gut" },
+        { id: "4-3-20", type: "boss", q: "Final: 'Good morning, how are you? I am tired.'", options: ["Guten Abend, wie geht es Ihnen? Ich bin wach.", "Guten Morgen, wie geht es dir? Ich bin müde."], a: "Guten Morgen, wie geht es dir? Ich bin müde." }
+      ]
+    },
+
+    // --- LEVEL 4: INTRODUCTIONS ---
+   {
+      levelId: "4",
+      title: "Introductions",
+      questions: [
+        { id: "4-4-1", type: "intro", word: "Ich heiße...", translation: "My name is...", content: "Means 'I am called...'" },
+        { id: "4-4-2", type: "choice", q: "How do you say your name?", options: ["Ich bin", "Ich heiße"], a: "Ich heiße" },
+        { id: "4-4-3", type: "jumble", q: "My name is Hans", options: ["heiße", "Hans", "Ich"], a: "Ich heiße Hans" },
+        { id: "4-4-4", type: "intro", word: "Wie heißt du?", translation: "What is your name? (Informal)", content: "For peers/children." },
+        { id: "4-4-5", type: "choice", q: "Ask a child their name:", options: ["Wie heißt du?", "Wie heißen Sie?"], a: "Wie heißt du?" },
+        { id: "4-4-6", type: "jumble", q: "Hello what is your name", options: ["Wie", "Hallo", "heißt", "du"], a: "Hallo Wie heißt du" },
+        { id: "4-4-7", type: "intro", word: "Freut mich", translation: "Pleased to meet you", content: "Short and polite." },
+        { id: "4-4-8", type: "choice", q: "After meeting someone say:", options: ["Freut mich", "Tschüss"], a: "Freut mich" },
+        { id: "4-4-9", type: "jumble", q: "My name is Sarah pleased to meet you", options: ["Freut", "Ich", "mich", "heiße", "Sarah"], a: "Ich heiße Sarah Freut mich" },
+        { id: "4-4-10", type: "intro", word: "Das ist...", translation: "This is...", content: "For introducing others." },
+        { id: "4-4-11", type: "choice", q: "Introduce your uncle:", options: ["Das ist mein Onkel", "Das heiße mein Onkel"], a: "Das ist mein Onkel" },
+        { id: "4-4-12", type: "jumble", q: "This is my smart granddaughter", options: ["meine", "ist", "Das", "kluge", "Enkelin"], a: "Das ist meine kluge Enkelin" },
+        { id: "4-4-13", type: "intro", word: "Wie heißen Sie?", translation: "What is your name? (Formal)", content: "For elders/strangers." },
+        { id: "4-4-14", type: "choice", q: "Formal name question:", options: ["Wie heißen Sie?", "Wie heißt du?"], a: "Wie heißen Sie?" },
+        { id: "4-4-15", type: "jumble", q: "Good day what is your name (formal)", options: ["Sie", "heißen", "Guten", "Wie", "Tag"], a: "Guten Tag Wie heißen Sie" },
+        { id: "4-4-16", type: "choice", q: "Is 'Ich heiße' formal or informal?", options: ["Both", "Informal only"], a: "Both" },
+        { id: "4-4-17", type: "jumble", q: "This is my blue car", options: ["ist", "mein", "Das", "blaues", "Auto"], a: "Das ist mein blaues Auto" },
+        { id: "4-4-18", type: "choice", q: "Which word means 'pleased'?", options: ["Freut", "Heißt"], a: "Freut" },
+        { id: "4-4-19", type: "jumble", q: "My grandson is tall and he is called Leo", options: ["er", "heiße", "und", "ist", "Mein", "groß", "Leo", "Enkel"], a: "Mein Enkel ist groß und er heißt Leo" },
+        { id: "4-4-20", type: "boss", q: "Final: 'Hello, my name is Paul. This is my niece.'", options: ["Hallo, wie heißt du? Das ist mein Neffe.", "Hallo, ich heiße Paul. Das ist meine Nichte."], a: "Hallo, ich heiße Paul. Das ist meine Nichte." }
+      ]
+    },
+
+    // --- LEVEL 5: THE PERFECT GREETING ---
+    {
+      levelId: "5",
+      title: "The Perfect Greeting",
+      questions: [
+        { id: "4-5-1", type: "intro", word: "Willkommen", translation: "Welcome", content: "To greet someone at a place." },
+        { id: "4-5-2", type: "choice", q: "Welcome someone to your home:", options: ["Willkommen", "Tschüss"], a: "Willkommen" },
+        { id: "4-5-3", type: "jumble", q: "Welcome to my house", options: ["mein", "in", "Willkommen", "Haus"], a: "Willkommen in mein Haus" },
+        { id: "4-5-4", type: "intro", word: "Entschuldigung", translation: "Excuse me / Sorry", content: "To start a talk politely." },
+        { id: "4-5-5", type: "choice", q: "How to say 'Excuse me'?", options: ["Entschuldigung", "Willkommen"], a: "Entschuldigung" },
+        { id: "4-5-6", type: "jumble", q: "Excuse me how are you formal", options: ["wie", "Entschuldigung", "Ihnen", "es", "geht"], a: "Entschuldigung wie geht es Ihnen" },
+        { id: "4-5-7", type: "intro", word: "Bitte / Danke", translation: "Please / Thanks", content: "Politeness basics." },
+        { id: "4-5-8", type: "choice", q: "Which word means 'Thank you'?", options: ["Bitte", "Danke"], a: "Danke" },
+        { id: "4-5-9", type: "jumble", q: "Thank you my smart daughter", options: ["kluge", "Danke", "meine", "Tochter"], a: "Danke meine kluge Tochter" },
+        { id: "4-5-10", type: "intro", word: "Vielen Dank", translation: "Many thanks", content: "Stronger gratitude." },
+        { id: "4-5-11", type: "jumble", q: "Many thanks my family is happy", options: ["glücklich", "Dank", "Vielen", "ist", "Familie", "meine"], a: "Vielen Dank meine Familie ist glücklich" },
+        { id: "4-5-12", type: "intro", word: "Schönen Tag noch", translation: "Have a nice day", content: "A common polite farewell." },
+        { id: "4-5-13", type: "choice", q: "Wish someone a nice day:", options: ["Schönen Tag noch", "Guten Morgen"], a: "Schönen Tag noch" },
+        { id: "4-5-14", type: "jumble", q: "Goodbye and have a nice day", options: ["und", "Auf", "Wiedersehen", "Tag", "noch", "Schönen"], a: "Auf Wiedersehen und Schönen Tag noch" },
+        { id: "4-5-15", type: "choice", q: "Is 'Bitte' both 'Please' and 'You're welcome'?", options: ["No", "Yes"], a: "Yes" },
+        { id: "4-5-16", type: "jumble", q: "Excuse me is that your blue car", options: ["Entschuldigung", "blaues", "das", "ist", "dein", "Auto"], a: "Entschuldigung ist das dein blaues Auto" },
+        { id: "4-5-17", type: "choice", q: "Translate 'Many thanks':", options: ["Viel Dank", "Vielen Dank"], a: "Vielen Dank" },
+        { id: "4-5-18", type: "jumble", q: "Welcome the dinner is fast and hot", options: ["heiß", "ist", "das", "Willkommen", "schnell", "und", "Essen"], a: "Willkommen das Essen ist schnell and heiß" },
+        { id: "4-5-19", type: "choice", q: "Greeting at 11 PM?", options: ["Guten Morgen", "Gute Nacht"], a: "Gute Nacht" },
+        { id: "4-5-20", type: "boss", q: "Final: 'Excuse me, are you smart? Thank you!'", options: ["Entschuldigung, sind Sie klug? Danke!", "Willkommen, sind Sie müde? Bitte!"], a: "Entschuldigung, sind Sie klug? Danke!" }
+      ]
+    }
   ]
-}
-];
+}]

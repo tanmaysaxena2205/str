@@ -11,6 +11,8 @@ const UserSchema = new Schema({
   xp: { type: Number, default: 0 },
   streak: { type: Number, default: 0 },
 
+  
+
   role: { 
     type: String, 
     enum: ['free', 'premium', 'admin'], 

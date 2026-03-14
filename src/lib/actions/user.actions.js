@@ -67,10 +67,8 @@ export async function completeSublevel(clerkId, finishedId) {
     await connectToDatabase();
     
     // 1. Parse the ID of the level the user JUST completed
-    // If user completes Level 3 of Unit 1, finishedId should be "1-1-3"
     const parts = finishedId.split("-").map(part => parseInt(part, 10));
     
-    // Safety fallback to Section 1, Unit 1, Level 1 if parsing fails
     const section = !isNaN(parts[0]) ? parts[0] : 1;
     const unit    = !isNaN(parts[1]) ? parts[1] : 1;
     const level   = !isNaN(parts[2]) ? parts[2] : 1;
@@ -80,20 +78,16 @@ export async function completeSublevel(clerkId, finishedId) {
     let nextLevel = level + 1;
 
     // 2. THE PROGRESSION GATE
-    // Only increment Unit if the level just finished was 5
     if (level >= 5) {
-      nextLevel = 1; // Reset level to 1
-      nextUnit = unit + 1; // Move to next unit
+      nextLevel = 1; 
+      nextUnit = unit + 1; 
       
-      // Check if we also need to move to the next section
       const currentSectionData = COURSE_STRUCTURE[section];
       if (currentSectionData && nextUnit > currentSectionData.totalUnits) {
         nextUnit = 1;
         nextSection = section + 1;
       }
     } else {
-      // IMPORTANT: If level was 1, 2, 3, or 4...
-      // nextUnit and nextSection MUST remain unchanged from the current ones
       nextUnit = unit;
       nextSection = section;
     }
@@ -103,6 +97,7 @@ export async function completeSublevel(clerkId, finishedId) {
 
     console.log(`User ${clerkId} finished ${finishedId}. Moving to ${nextProgressId}`);
 
+    // 4. Update the User document
     const updatedUser = await User.findOneAndUpdate(
       { clerkId: String(clerkId) }, 
       { 
@@ -110,8 +105,12 @@ export async function completeSublevel(clerkId, finishedId) {
           currentProgress: nextProgressId,
           lastLevelCompletedAt: new Date() 
         }, 
-        // Awarding 20 XP for level completion
-        $inc: { xp: 20 } 
+        $inc: { 
+          // Incrementing XP by 21 (+1 bonus included)
+          xp: 1, 
+          // Incrementing walletBalance by 0.05
+          
+        } 
       },
       { new: true } 
     );
@@ -127,7 +126,6 @@ export async function completeSublevel(clerkId, finishedId) {
     throw error;
   }
 }
-
 /**
  * Creates a new user in the database
  */
@@ -141,7 +139,7 @@ export async function createUser(userData) {
       photo: userData.photo,
       xp: 0,
       currentProgress: "1-1-1",
-      role: 'free' // Ensure default role is set
+      role: 'free' ,// Ensure wallet balance starts at 0
     });
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {

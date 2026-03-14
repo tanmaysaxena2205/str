@@ -1,0 +1,17 @@
+export const ALL_ASSETS = [
+  { src: "/images/clover.svg", label: "der Klee" },
+  { src: "/images/jumprope.svg", label: "die Glocke" },
+  { src: "/images/diamond.svg", label: "der Diamant" },
+  { src: "/images/match.svg", label: "das Streichholz" },
+  { src: "/images/cabbage.svg", label: "der Kohl" },
+  { src: "/images/heel.svg", label: "der Absatz" },
+  { src: "/images/book.svg", label: "der Buch" },
+  { src: "/images/zip.svg", label: "die Zipfeder" },
+ { src: "/images/sidewalk.svg", label: "der Bürgersteig" },
+  { src: "/images/board.svg", label: "der Brett" },
+  { src: "/images/fox.svg", label: "der Fuchs" },
+  { src: "/images/nutcracker.svg", label: "der Nussknacker" },
+  { src: "/images/muzzle.svg", label: "der Maulkorb " },
+  { src: "/images/bike.svg", label: "das Motorrad" },
+  { src: "/images/gymnast.svg", label: "die Turnerin" },
+];
